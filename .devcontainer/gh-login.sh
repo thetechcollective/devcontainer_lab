@@ -28,6 +28,10 @@ initialize() {
     echo "$PREFIX    And the devcontainer will be able to log you in without user intaraction."
   else
     echo "$PREFIX Your host is authenticated  with GitHub CLI."
+    # Check if the devcontainer.env has an empty line at the end if not add one
+    if [ -n "$(tail -c 1 $(dirname $0)/devcontainer.env)" ]; then
+      echo "" >> $(dirname $0)/devcontainer.env
+    fi 
     echo "GITHUB_TOKEN_BASE64=$(echo $(gh auth token) | base64 )" >> $(dirname $0)/devcontainer.env
   fi
 }
