@@ -43,6 +43,6 @@ echo "Logging in to Azure CLI..."
 az login --scope $SCOPE --tenant $TENANT > /dev/null
 [ -n "$SUBSCRIPTION" ] && az config set core.login_experience_v2=off > /dev/null 2>&1 && az account set --subscription $SUBSCRIPTION
 echo "$PREFIX Logged in to Azure - account status:"
-az account show 
+az account show | jq -r --arg test "$1" '"   Environment: " + .name + " (" + $test + ")\n   Login:       " + .user.name'
 
 echo "$PREFIX SUCCES"
