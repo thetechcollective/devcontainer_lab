@@ -28,6 +28,7 @@ initialize() {
     echo "$PREFIX    And the devcontainer will be able to log you in without user intaraction."
   else
     echo "$PREFIX Your host is authenticated  with GitHub CLI."
+    cp $(dirname $0)/devcontainer.env $(dirname $0)/devcontainer.env.bak
     # Check if the devcontainer.env has an empty line at the end if not add one
     if [ -n "$(tail -c 1 $(dirname $0)/devcontainer.env)" ]; then
       echo "" >> $(dirname $0)/devcontainer.env
@@ -41,7 +42,7 @@ postcreate(){
       echo "$PREFIX ...using token from host"
       echo $GITHUB_TOKEN_BASE64 | base64 --decode | gh auth login --with-token
       echo "$PREFIX ...cleaning up after the initialize step"
-      sed -i '/^GITHUB_TOKEN_BASE64/d' $(dirname $0)/devcontainer.env
+      cp $(dirname $0)/devcontainer.env.bak $(dirname $0)/devcontainer.env 
       echo "$PREFIX Logged in to GitHub CLI - account status:"
       gh auth status
   else
