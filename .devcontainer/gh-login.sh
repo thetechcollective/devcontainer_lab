@@ -42,7 +42,8 @@ postcreate(){
       echo "$PREFIX ...using token from host"
       echo $GITHUB_TOKEN_BASE64 | base64 --decode | gh auth login --with-token
       echo "$PREFIX ...cleaning up after the initialize step"
-      cp $(dirname $0)/devcontainer.env.bak $(dirname $0)/devcontainer.env 
+      cp $(dirname $0)/devcontainer.env.bak $(dirname $0)/devcontainer.env
+      rm $(dirname $0)/devcontainer.env.bak 
       echo "$PREFIX Logged in to GitHub CLI - account status:"
       gh auth status
   else
