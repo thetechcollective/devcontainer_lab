@@ -18,6 +18,9 @@
 #   	"./.devcontainer/devcontainer.env"
 #     ]
 
+# Failure is not an option
+set -e
+
 initialize() {  
   gh auth status > /dev/null 2>&1
   if [ $? -ne 0 ]; then
@@ -66,6 +69,4 @@ else
 fi
 echo "$PREFIX SUCCES"
 
-# Failure is not an option
-set -e
 
