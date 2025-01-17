@@ -19,30 +19,30 @@
 #     ]
 
 initialize() {  
-    gh auth status > /dev/null 2>&1
-    if [ $? -ne 0 ]; then
-      echo "$PREFIX Your host is not authenticated with GitHub CLI."
-      echo "$PREFIX NOTE:"
-      echo "$PREFIX    In the future, make sure your host is authenticated with GitHub CLI" 
-      echo "$PREFIX    at the time you start the devconatiner."
-      echo "$PREFIX    And the devcontainer will be able to log you in without user intaraction."
-    else
-      echo "$PREFIX Your host is authenticated  with GitHub CLI."
-      echo "GITHUB_TOKEN_BASE64=$(echo $(gh auth token) | base64 )" >> $(dirname $0)/devcontainer.env
-    fi
+  gh auth status > /dev/null 2>&1
+  if [ $? -ne 0 ]; then
+    echo "$PREFIX Your host is not authenticated with GitHub CLI."
+    echo "$PREFIX NOTE:"
+    echo "$PREFIX    In the future, make sure your host is authenticated with GitHub CLI" 
+    echo "$PREFIX    at the time you start the devconatiner."
+    echo "$PREFIX    And the devcontainer will be able to log you in without user intaraction."
+  else
+    echo "$PREFIX Your host is authenticated  with GitHub CLI."
+    echo "GITHUB_TOKEN_BASE64=$(echo $(gh auth token) | base64 )" >> $(dirname $0)/devcontainer.env
+  fi
 }
 
 postcreate(){
-    if [ "$GITHUB_CLI_AUTH_REQUIRED" = "1" ]; then
-        echo "$PREFIX GitHub CLI authentication is required"
-        if [ -n "$GITHUB_TOKEN_BASE64" ]; then
-            echo "$PREFIX ...using token from host"
-            echo $GITHUB_TOKEN_BASE64 | base64 --decode | gh auth login --with-token
-            sed -i '/^GITHUB_TOKEN_BASE64/d' $(dirname $0)/devcontainer.env
-        else
-            gh auth login -w -p https -h github.com
-        fi
-    fi  
+  if [ -n "$GITHUB_TOKEN_BASE64" ]; then
+      echo "$PREFIX ...using token from host"
+      echo $GITHUB_TOKEN_BASE64 | base64 --decode | gh auth login --with-token
+      echo "$PREFIX ...cleaning up after the initialize step"
+      sed -i '/^GITHUB_TOKEN_BASE64/d' $(dirname $0)/devcontainer.env
+      echo "$PREFIX Logged in to GitHub CLI - account status:"
+      gh auth status
+  else
+      gh auth login -w -p https -h github.com
+  fi
 }
 
 

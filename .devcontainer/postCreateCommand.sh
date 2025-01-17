@@ -12,11 +12,7 @@ if [ -f Pipfile ]; then
     pipenv install --dev
 fi
 
-if [ "$GITHUB_CLI_AUTH_REQUIRED" = "1" ]; then
-    $(dirname $0)/gh-login.sh postcreate
-fi
-
-if [ "$GITHUB_CLI_AUTH_REQUIRED" = "1" ]; then
+if [ "$GH_CLI_AUTH_REQUIRED" = "1" ]; then
     $(dirname $0)/gh-login.sh postcreate
 fi
 

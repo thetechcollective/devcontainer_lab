@@ -7,7 +7,6 @@
 
 #Assert everything is ok, Exit on any error
 set -e 
-set -x
 
 # Context specific settings Tenant, Scope and Subscription settings 
 # These are for ARLA OMB
