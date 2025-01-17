@@ -21,7 +21,7 @@
 			]	
 		}
 	},
-	"initializeCommand": "./.devcontainer/initializeCommand.sh",
+	"initializeCommand": "./.devcontainer/gh-login.sh initialize",
 	"postCreateCommand": "./.devcontainer/postCreateCommand.sh",
 	"runArgs": [
 		"--env-file",
